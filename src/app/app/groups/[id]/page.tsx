@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
+import { Id } from "../../../../../convex/_generated/dataModel";
 import { formatDate } from "@/lib/utils";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -11,17 +12,11 @@ import EmptyState from "@/components/ui/empty-state";
 export default function GroupDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const groupId = params.id as string;
+  const groupId = params.id as Id<"groups">;
 
-  const group = useQuery(api.groups.getById, {
-    groupId: groupId as ReturnType<typeof api.groups.getById>["_args"]["groupId"],
-  });
-  const members = useQuery(api.groups.listMembers, {
-    groupId: groupId as ReturnType<typeof api.groups.listMembers>["_args"]["groupId"],
-  });
-  const groupRequests = useQuery(api.groups.listGroupRequests, {
-    groupId: groupId as ReturnType<typeof api.groups.listGroupRequests>["_args"]["groupId"],
-  });
+  const group = useQuery(api.groups.getById, { groupId });
+  const members = useQuery(api.groups.listMembers, { groupId });
+  const groupRequests = useQuery(api.groups.listGroupRequests, { groupId });
   const myPrayers = useQuery(api.prayers.list, {
     status: "all",
   });
