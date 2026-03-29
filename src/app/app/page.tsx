@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
+import { Id } from "../../../convex/_generated/dataModel";
 import { formatDate, CATEGORIES } from "@/lib/utils";
 import type { PrayerCategory } from "@/lib/utils";
 import EmptyState from "@/components/ui/empty-state";
@@ -51,7 +52,7 @@ export default function MyPrayersPage() {
 
   async function handleShare(prayerId: string) {
     const shareId = await generateShareId({
-      prayerId: prayerId as ReturnType<typeof api.prayers.generateShareId>["_args"]["prayerId"],
+      prayerId: prayerId as Id<"prayers">,
     });
     const url = `${window.location.origin}/request/${shareId}`;
     await navigator.clipboard.writeText(url);
@@ -61,7 +62,7 @@ export default function MyPrayersPage() {
   async function handleDelete() {
     if (!deleteId) return;
     await removePrayer({
-      prayerId: deleteId as ReturnType<typeof api.prayers.remove>["_args"]["prayerId"],
+      prayerId: deleteId as Id<"prayers">,
     });
     setDeleteId(null);
   }

@@ -48,8 +48,8 @@ export default function GroupDetailPage() {
   async function handleSharePrayer(prayerId: string) {
     try {
       await sharePrayer({
-        groupId: groupId as ReturnType<typeof api.groups.sharePrayerToGroup>["_args"]["groupId"],
-        prayerId: prayerId as ReturnType<typeof api.groups.sharePrayerToGroup>["_args"]["prayerId"],
+        groupId: groupId as Id<"groups">,
+        prayerId: prayerId as Id<"prayers">,
       });
       setShowShareModal(false);
     } catch (err) {
@@ -59,13 +59,13 @@ export default function GroupDetailPage() {
 
   async function handlePray(groupRequestId: string) {
     await prayForRequest({
-      groupRequestId: groupRequestId as ReturnType<typeof api.groups.prayForRequest>["_args"]["groupRequestId"],
+      groupRequestId: groupRequestId as Id<"groupRequests">,
     });
   }
 
   async function handleRemoveMember(memberId: string) {
     await removeMember({
-      memberId: memberId as ReturnType<typeof api.groups.removeMember>["_args"]["memberId"],
+      memberId: memberId as Id<"groupMembers">,
     });
   }
 

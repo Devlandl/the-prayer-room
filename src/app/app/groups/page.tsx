@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
+import { Id } from "../../../../convex/_generated/dataModel";
 import { formatDate } from "@/lib/utils";
 import EmptyState from "@/components/ui/empty-state";
 import Link from "next/link";
@@ -31,7 +32,7 @@ export default function GroupsPage() {
     if (!inviteEmail.trim() || !showInviteModal) return;
     try {
       await inviteMember({
-        groupId: showInviteModal as ReturnType<typeof api.groups.inviteMember>["_args"]["groupId"],
+        groupId: showInviteModal as Id<"groups">,
         email: inviteEmail.trim(),
       });
       setInviteEmail("");
@@ -44,7 +45,7 @@ export default function GroupsPage() {
   async function handleDelete() {
     if (!deleteId) return;
     await removeGroup({
-      groupId: deleteId as ReturnType<typeof api.groups.remove>["_args"]["groupId"],
+      groupId: deleteId as Id<"groups">,
     });
     setDeleteId(null);
   }
