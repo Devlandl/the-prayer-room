@@ -72,10 +72,88 @@ export default function MyPrayersPage() {
     ? people.map((p) => p.name)
     : [];
 
+  const groups = useQuery(api.groups.list);
+  const allPrayers = useQuery(api.prayers.list, { status: "all" });
+
+  const totalPrayers = allPrayers?.length ?? 0;
+  const answeredPrayers = allPrayers?.filter((p) => p.isAnswered).length ?? 0;
+  const totalPeople = people?.length ?? 0;
+  const totalGroups = groups?.length ?? 0;
+
   return (
     <div className="p-4 md:p-6 max-w-3xl mx-auto space-y-6">
+      {/* Welcome Section */}
+      <div className="space-y-2">
+        <h1 className="text-2xl md:text-3xl font-bold text-brand-white">
+          Welcome to The Prayer Room
+        </h1>
+        <p className="text-brand-muted">
+          Your personal prayer journal and community
+        </p>
+      </div>
+
+      {/* Quick Stats */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="bg-brand-card border border-brand-border rounded-xl p-4 text-center">
+          <p className="text-2xl font-bold text-brand-gold">{totalPrayers}</p>
+          <p className="text-xs text-brand-muted mt-1">Total Prayers</p>
+        </div>
+        <div className="bg-brand-card border border-brand-border rounded-xl p-4 text-center">
+          <p className="text-2xl font-bold text-brand-gold">{answeredPrayers}</p>
+          <p className="text-xs text-brand-muted mt-1">Answered</p>
+        </div>
+        <div className="bg-brand-card border border-brand-border rounded-xl p-4 text-center">
+          <p className="text-2xl font-bold text-brand-gold">{totalPeople}</p>
+          <p className="text-xs text-brand-muted mt-1">People</p>
+        </div>
+        <div className="bg-brand-card border border-brand-border rounded-xl p-4 text-center">
+          <p className="text-2xl font-bold text-brand-gold">{totalGroups}</p>
+          <p className="text-xs text-brand-muted mt-1">Groups</p>
+        </div>
+      </div>
+
+      {/* How It Works */}
+      <div className="space-y-3">
+        <h2 className="text-lg font-semibold text-brand-white">How It Works</h2>
+        <div className="grid gap-3 md:grid-cols-3">
+          {[
+            {
+              step: 1,
+              title: "Write Prayers",
+              desc: "Add prayers with categories and people you're praying for",
+            },
+            {
+              step: 2,
+              title: "Track Answers",
+              desc: "Mark prayers as answered and celebrate God's faithfulness",
+            },
+            {
+              step: 3,
+              title: "Pray Together",
+              desc: "Create groups and share prayer requests with others",
+            },
+          ].map((item) => (
+            <div
+              key={item.step}
+              className="bg-brand-card border border-brand-border rounded-xl p-4 flex items-start gap-3"
+            >
+              <span className="flex-shrink-0 w-8 h-8 rounded-full bg-brand-gold text-brand-black flex items-center justify-center font-bold text-sm">
+                {item.step}
+              </span>
+              <div>
+                <p className="text-brand-white font-medium">{item.title}</p>
+                <p className="text-brand-muted text-sm mt-0.5">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Divider */}
+      <hr className="border-brand-border" />
+
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-brand-white">My Prayers</h1>
+        <h2 className="text-2xl font-bold text-brand-white">My Prayers</h2>
         <button
           onClick={() => setShowAddModal(true)}
           className="bg-brand-gold text-brand-black px-4 py-2 rounded-lg font-medium hover:bg-brand-gold-light transition-colors"
